@@ -6,7 +6,10 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Sneakerlist from './components/Sneakerlist';
 
-const supabase = createClient('https://htejmndffmhylxrkdava.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0ZWptbmRmZm1oeWx4cmtkYXZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODQyNTcsImV4cCI6MjA0OTY2MDI1N30.KTraCyrRtWiBT09CNCgAsVd3xelLX8IbLdSejnDPYNE');
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 export default function App() {
   const [session, setSession] = useState(null);
