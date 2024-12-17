@@ -14,6 +14,7 @@ function Sneakerlist() {
     releaseYear: "",
     price: "",
   });
+  const [searchQuery, setSearchQuery] = useState(""); // State for the search bar
 
   useEffect(() => {
     getSneakers();
@@ -45,17 +46,23 @@ function Sneakerlist() {
   }
 
   async function deleteSneaker(sneakerId) {
-    console.log("Deleting sneaker with ID:", sneakerId); // Debug log to verify the ID
     const { error } = await supabase.from("sneaker").delete().eq("id", sneakerId);
-  
+
     if (error) {
       console.error("Error deleting sneaker:", error.message);
     } else {
       alert("Sneaker deleted successfully!");
-      getSneakers(); // Refresh the list after deletion
+      getSneakers();
     }
   }
-  
+
+  // Filter sneakers based on search query
+  const filteredSneakers = sneakers.filter(
+    (sneaker) =>
+      sneaker.marke.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sneaker.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sneaker.releaseYear.toString().includes(searchQuery)
+  );
 
   return (
     <div style={{ padding: "1rem" }}>
@@ -72,33 +79,51 @@ function Sneakerlist() {
           </tr>
         </thead>
         <tbody>
-        {sneakers.map((sneaker) => (
-    <tr key={sneaker.id}>
-      <td>{sneaker.id}</td>
-      <td>{sneaker.marke}</td>
-      <td>{sneaker.model}</td>
-      <td>{sneaker.releaseYear}</td>
-      <td>{sneaker.price}</td>
-      <td>
-        <button
-          onClick={() => deleteSneaker(sneaker.id)}
-          style={{
-            backgroundColor: "red",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-            padding: "0.3rem 0.5rem",
-            borderRadius: "5px",
-          }}
-        >
-          X
-        </button>
-      </td>
-    </tr>
-  ))}
+          {filteredSneakers.map((sneaker) => (
+            <tr key={sneaker.id}>
+              <td>{sneaker.id}</td>
+              <td>{sneaker.marke}</td>
+              <td>{sneaker.model}</td>
+              <td>{sneaker.releaseYear}</td>
+              <td>{sneaker.price}</td>
+              <td>
+                <button
+                  onClick={() => deleteSneaker(sneaker.id)}
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "0.3rem 0.5rem",
+                    borderRadius: "5px",
+                  }}
+                >
+                  X
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
+      {/* Search Bar Section */}
+      <div style={{ marginTop: "1rem", marginBottom: "2rem" }}>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by brand, model, or year..."
+          style={{
+            width: "100%",
+            padding: "0.5rem",
+            fontSize: "1rem",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+        />
+      </div>
+
+      {/* Add Sneaker Form */}
       <div className="add-sneaker-section">
         <h2>Add a New Sneaker</h2>
         <form onSubmit={addSneaker} className="add-sneaker-form">
@@ -107,7 +132,9 @@ function Sneakerlist() {
             <input
               type="text"
               value={newSneaker.marke}
-              onChange={(e) => setNewSneaker({ ...newSneaker, marke: e.target.value })}
+              onChange={(e) =>
+                setNewSneaker({ ...newSneaker, marke: e.target.value })
+              }
               placeholder="Enter brand (e.g., Nike)"
               required
             />
@@ -117,7 +144,9 @@ function Sneakerlist() {
             <input
               type="text"
               value={newSneaker.model}
-              onChange={(e) => setNewSneaker({ ...newSneaker, model: e.target.value })}
+              onChange={(e) =>
+                setNewSneaker({ ...newSneaker, model: e.target.value })
+              }
               placeholder="Enter model (e.g., Air Jordan 1)"
               required
             />
@@ -127,7 +156,9 @@ function Sneakerlist() {
             <input
               type="date"
               value={newSneaker.releaseYear}
-              onChange={(e) => setNewSneaker({ ...newSneaker, releaseYear: e.target.value })}
+              onChange={(e) =>
+                setNewSneaker({ ...newSneaker, releaseYear: e.target.value })
+              }
               required
             />
           </div>
@@ -136,7 +167,9 @@ function Sneakerlist() {
             <input
               type="text"
               value={newSneaker.price}
-              onChange={(e) => setNewSneaker({ ...newSneaker, price: e.target.value })}
+              onChange={(e) =>
+                setNewSneaker({ ...newSneaker, price: e.target.value })
+              }
               placeholder="Enter price (e.g., $200)"
               required
             />
