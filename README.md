@@ -115,6 +115,7 @@ Deployment
         -Kostenfrei für kleine Projekte (kostenlose Tier verfügbar).
 
     Schritte zum Deployment:
+        -Auf das sneakerliste Verzeichnis wechseln.
         -GitHub-Repository mit dem Code erstellen.
         -Auf Vercel anmelden und das Repository verknüpfen.
         -Vercel erkennt automatisch die React-App und konfiguriert den Build-Prozess (npm run build).
