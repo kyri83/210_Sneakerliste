@@ -87,12 +87,8 @@ Architektur-Dokumentation für Sneakerliste-Projekt
         -price (Zahl/Text)
         Authentifizierung: Standard-Supabase Auth (z. B. Email/Passwort).
 
-    3. Diagramm
+Projektarchitektur
 
-        Du könntest auch ein einfaches Diagramm einfügen (z. B. mit Draw.io, Lucidchart oder einem anderen Tool). Hier ist eine textbasierte Darstellung:
-
-        sql
-        Code kopieren
         +--------------------+          +--------------------------+
         |   React Frontend   |          | Supabase (Backend/DB)    |
         |                    | <------> | PostgreSQL Database      |
